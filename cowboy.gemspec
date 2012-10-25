@@ -4,8 +4,8 @@ require File.expand_path('../lib/cowboy/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Alejandro Ciniglio"]
   gem.email         = ["mail@alejandrociniglio.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{gem description}
+  gem.summary       = %q{gem summary}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "cowboy"
   gem.require_paths = ["lib"]
   gem.version       = Cowboy::VERSION
+
+  gem.extensions    = ["ext/cowboy/extconf.rb"]
 end
