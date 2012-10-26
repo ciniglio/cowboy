@@ -1,6 +1,4 @@
 require 'mkmf'
-create_makefile('cowboy/cowboy')
-
 LIBDIR = RbConfig::CONFIG['libdir']
 INCLUDEDIR = RbConfig::CONFIG['includedir']
 
@@ -27,3 +25,5 @@ end
 unless find_library('fftw3', "fftw_malloc")
   abort "FFTw is missing, please install FFTw"
 end
+
+create_makefile('cowboy/cowboy')
