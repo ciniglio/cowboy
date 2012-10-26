@@ -4,7 +4,7 @@
 #include <ruby.h>;
 #include <fftw3.h>;
 
-#include <cowboy_complex.h>;
+#include "cowboy_complex.h";
 
 extern VALUE mCowboy;
 
