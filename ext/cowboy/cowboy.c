@@ -1,7 +1,9 @@
-#include <cowboy.h>
+#include "cowboy.h"
+
+VALUE mCowboy;
 
 void Init_cowboy(){
-  VALUE mCowboy = rb_define_module("Cowboy");
+  mCowboy = rb_define_module("Cowboy");
 
   Init_cowboy_complex();
 }
