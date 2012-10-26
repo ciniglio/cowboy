@@ -6,14 +6,11 @@ long size_of_ary(VALUE nums){
   return RARRAY_LEN(nums);
 }
 
-fftw_complex * cast_nums_to_complex(VALUE nums){
+void cast_nums_to_complex(fftw_complex * fc, VALUE nums){
   long len;
-  fftw_complex * fc;
   int i;
   VALUE n;
   Check_Type(nums, T_ARRAY);
-  len = RARRAY_LEN(nums);
-  fc = ALLOC_N(fftw_complex, len);
   i = 0;
 
   while((n =rb_ary_shift(nums)) != Qnil){
@@ -21,6 +18,11 @@ fftw_complex * cast_nums_to_complex(VALUE nums){
     fc[i][1] = 0;
     i++;
   }
+}
+
+fftw_complex * allocate_fftw_complex(long n){
+  fftw_complex * fc;
+  fc = ALLOC_N(fftw_complex, n);
   return fc;
 }
 
@@ -35,7 +37,10 @@ VALUE complex_to_real_nums(fftw_complex *fc, long N){
 
 VALUE test_back_and_from_complex(VALUE m, VALUE nums){
   Check_Type(nums, T_ARRAY);
-  return complex_to_real_nums(cast_nums_to_complex(nums),
+  fftw_complex * fc;
+  fc = allocate_fftw_complex(size_of_ary(nums));
+  cast_nums_to_complex(fc, nums);
+  return complex_to_real_nums(fc,
                               size_of_ary(nums));
 }
 
