@@ -26,11 +26,18 @@ fftw_complex * allocate_fftw_complex(long n){
   return fc;
 }
 
+VALUE c_to_rb_complex(double r, double i){
+  VALUE cplx = rb_path2class("Complex");
+  return rb_funcall(cplx, rb_intern("rect"), 2,
+                    DBL2NUM(r), DBL2NUM(i));
+}
+
 VALUE complex_to_real_nums(fftw_complex *fc, long N){
   VALUE ar = rb_ary_new();
   int i;
   for(i = 0; i < N; i++){
-    rb_ary_push(ar, DBL2NUM(fc[i][0]));
+    rb_ary_push(ar, c_to_rb_complex(fc[i][0],
+                                    fc[i][1]));
   }
   return ar;
 }
@@ -45,5 +52,5 @@ VALUE test_back_and_from_complex(VALUE m, VALUE nums){
 }
 
 void Init_cowboy_complex(){
-  //rb_define_module_function(mCowboy, "test_complex", test_back_and_from_complex, 1);
+  rb_define_module_function(mCowboy, "test_complex", test_back_and_from_complex, 1);
 }
