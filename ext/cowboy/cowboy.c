@@ -10,6 +10,9 @@ VALUE fft_1d(VALUE m, VALUE nums){
   Check_Type(nums, T_ARRAY);
 
   n = size_of_ary(nums);
+  if (n == 0){
+    rb_raise(rb_eException, "Can't use blank array");
+  }
   in = allocate_fftw_complex(n);
   out = allocate_fftw_complex(n);
   fp = fftw_plan_dft_1d(n, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
@@ -17,6 +20,7 @@ VALUE fft_1d(VALUE m, VALUE nums){
   cast_nums_to_complex(in, nums);
 
   fftw_execute(fp);
+  free(in);
 
   return complex_to_real_nums(out, n);
 }
