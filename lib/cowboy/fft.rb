@@ -17,10 +17,10 @@ module Cowboy
 
     def buckets(sample_rate=nil)
       sample_rate ||= @freq.size
-      nyquist = sample_rate/2
+      nyquist = sample_rate/2.0
       a = []
       n = @freq.size
-      for i in (0..n)
+      for i in (0...n)
         a << -nyquist + (2 * nyquist/n) * i
       end
       return a
