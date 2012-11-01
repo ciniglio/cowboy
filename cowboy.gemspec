@@ -4,9 +4,11 @@ require File.expand_path('../lib/cowboy/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Alejandro Ciniglio"]
   gem.email         = ["mail@alejandrociniglio.com"]
-  gem.description   = %q{gem description}
-  gem.summary       = %q{gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Cowboy is a wrapper for fftw
+                         (C fourier transform library)}
+  gem.summary       = %q{Cowboy allows you to access
+                         blazing fast FFTs from within Ruby}
+  gem.homepage      = "https://github.com/ciniglio/cowboy"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
