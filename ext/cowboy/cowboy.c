@@ -21,6 +21,7 @@ VALUE fft_1d(VALUE m, VALUE nums){
 
   fftw_execute(fp);
   free(in);
+  fftw_destroy_plan(fp);
 
   return complex_to_real_nums(out, n);
 }
