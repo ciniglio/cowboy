@@ -5,11 +5,11 @@ VALUE mCowboy;
 VALUE fft_1d(VALUE m, VALUE nums){
   fftw_complex *in, *out;
   fftw_plan fp;
-  long n;
+  int n;
 
   Check_Type(nums, T_ARRAY);
 
-  n = size_of_ary(nums);
+  n = (int) size_of_ary(nums);
   if (n == 0){
     rb_raise(rb_eException, "Can't use blank array");
   }
