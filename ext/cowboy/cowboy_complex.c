@@ -13,7 +13,7 @@ void cast_nums_to_complex(fftw_complex * fc, VALUE nums){
   Check_Type(nums, T_ARRAY);
   i = 0;
 
-  while((n =rb_ary_shift(nums)) != Qnil){
+  while((n = rb_ary_shift(nums)) != Qnil){
     fc[i][0] = NUM2DBL(n);
     fc[i][1] = 0;
     i++;
@@ -33,11 +33,11 @@ VALUE c_to_rb_complex(double r, double i){
 }
 
 VALUE complex_to_real_nums(fftw_complex *fc, long N){
-  VALUE ar = rb_ary_new();
+  VALUE ar = rb_ary_new2(N);
   int i;
   for(i = 0; i < N; i++){
-    rb_ary_push(ar, c_to_rb_complex(fc[i][0],
-                                    fc[i][1]));
+    rb_ary_store(ar, i, c_to_rb_complex(fc[i][0],
+                                        fc[i][1]));
   }
   return ar;
 }

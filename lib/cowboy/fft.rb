@@ -16,13 +16,17 @@ module Cowboy
     end
 
     def buckets(sample_rate=nil)
+      return @buckets if @buckets
       sample_rate ||= @freq.size
       nyquist = sample_rate/2.0
+      sum = 0
       a = []
       n = @freq.size
       for i in (0...n)
-        a << -nyquist + (2 * nyquist/n) * i
+        a << -nyquist + sum
+        sum += (2 * nyquist/n)
       end
+      @buckets = a
       return a
     end
   end
