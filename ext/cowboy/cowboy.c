@@ -23,13 +23,14 @@ VALUE fft_1d(VALUE m, VALUE nums){
   free(in);
   fftw_destroy_plan(fp);
 
-  return complex_to_real_nums(out, n);
+  return ca_wrap_struct_class(out, n);
 }
 
 void Init_cowboy(){
   mCowboy = rb_define_module("Cowboy");
 
   Init_cowboy_complex();
+  Init_cowboy_array();
 
   rb_define_module_function(mCowboy, "fft_1d", fft_1d, 1);
 }
