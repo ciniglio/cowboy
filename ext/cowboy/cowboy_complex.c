@@ -12,6 +12,17 @@ long size_of_str(VALUE str){
   return RSTRING_LEN(RSTRING(str)) / 8;
 }
 
+long size_of_val(VALUE v){
+  if (TYPE(v) == T_STRING) {
+    return size_of_str(v);
+  } else if (TYPE(v) == T_ARRAY) {
+    return size_of_ary(v);
+  } else {
+    rb_raise(rb_eNotImpError, "Needs a string or array");
+    return 0;
+  }
+}
+
 void cast_string_to_complex(fftw_complex * fc, VALUE str){
   unsigned char * s;
   long len;
@@ -43,6 +54,16 @@ void cast_nums_to_complex(fftw_complex * fc, VALUE nums){
     n = rb_ary_entry(nums, len);
     fc[len][0] = NUM2DBL(n);
     fc[len][1] = 0;
+  }
+}
+
+void cast_val_to_complex(fftw_complex * fc, VALUE v){
+  if (TYPE(v) == T_STRING) {
+    cast_string_to_complex(fc, v);
+  } else if (TYPE(v) == T_ARRAY) {
+    cast_nums_to_complex(fc, v);
+  } else {
+    rb_raise(rb_eNotImpError, "Needs a string or array");
   }
 }
 
