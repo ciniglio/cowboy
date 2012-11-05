@@ -2,22 +2,22 @@
 
 VALUE mCowboy;
 
-VALUE fft_1d(VALUE m, VALUE nums){
+VALUE fft_1d(VALUE m, VALUE str){
   fftw_complex *in, *out;
   fftw_plan fp;
   int n;
 
-  Check_Type(nums, T_ARRAY);
+  Check_Type(str, T_STRING);
 
-  n = (int) size_of_ary(nums);
+  n = (int) size_of_str(str);
   if (n == 0){
-    rb_raise(rb_eException, "Can't use blank array");
+    rb_raise(rb_eException, "Can't use empty string");
   }
   in = allocate_fftw_complex(n);
   out = allocate_fftw_complex(n);
   fp = fftw_plan_dft_1d(n, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 
-  cast_nums_to_complex(in, nums);
+  cast_string_to_complex(in, str);
 
   fftw_execute(fp);
   free(in);
