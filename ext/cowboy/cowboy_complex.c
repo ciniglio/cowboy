@@ -1,5 +1,6 @@
 #include "cowboy.h"
 #include <ruby.h>
+#include <stdlib.h>
 
 long size_of_ary(VALUE nums){
   Check_Type(nums, T_ARRAY);
@@ -13,10 +14,10 @@ void cast_nums_to_complex(fftw_complex * fc, VALUE nums){
   Check_Type(nums, T_ARRAY);
   i = 0;
 
-  while((n = rb_ary_shift(nums)) != Qnil){
-    fc[i][0] = NUM2DBL(n);
-    fc[i][1] = 0;
-    i++;
+  for(len = 0; len < size_of_ary(nums); len++){
+    n = rb_ary_entry(nums, len);
+    fc[len][0] = NUM2DBL(n);
+    fc[len][1] = 0;
   }
 }
 
@@ -43,8 +44,8 @@ VALUE complex_to_real_nums(fftw_complex *fc, long N){
 }
 
 VALUE test_back_and_from_complex(VALUE m, VALUE nums){
-  Check_Type(nums, T_ARRAY);
   fftw_complex * fc;
+  Check_Type(nums, T_ARRAY);
   fc = allocate_fftw_complex(size_of_ary(nums));
   cast_nums_to_complex(fc, nums);
   return complex_to_real_nums(fc,
@@ -52,5 +53,4 @@ VALUE test_back_and_from_complex(VALUE m, VALUE nums){
 }
 
 void Init_cowboy_complex(){
-  rb_define_module_function(mCowboy, "test_complex", test_back_and_from_complex, 1);
 }
