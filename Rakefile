@@ -27,9 +27,9 @@ task :test => "lib/#{NAME}/#{NAME}.bundle"
 
 # use 'rake clean' and 'rake clobber' to
 # easily delete generated files
-CLEAN.include('ext/**/*{.o,.log,.so}')
+CLEAN.include('ext/**/*{.o,.log,.so,.bundle}')
 CLEAN.include('ext/**/Makefile')
-CLOBBER.include('lib/**/*.so')
+CLOBBER.include('lib/**/*{.so,.bundle}')
 
 # the same as before
 Rake::TestTask.new do |t|
