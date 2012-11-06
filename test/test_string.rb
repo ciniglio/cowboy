@@ -1,6 +1,4 @@
 require_relative './test_helper.rb'
-require 'cowboy'
-require 'test/unit'
 
 class TestString < Test::Unit::TestCase
   def test_ffd_1d_4
