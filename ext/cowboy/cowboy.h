@@ -6,6 +6,7 @@
 
 #include "cowboy_complex.h";
 #include "cowboy_array.h";
+#include "cowboy_data.h";
 
 extern VALUE mCowboy;
 

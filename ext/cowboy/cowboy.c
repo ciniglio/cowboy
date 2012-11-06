@@ -34,6 +34,7 @@ void Init_cowboy() {
 
   Init_cowboy_complex();
   Init_cowboy_array();
+  Init_cowboy_data();
 
   rb_define_module_function(mCowboy, "fft_1d", fft_1d, -1);
 }
