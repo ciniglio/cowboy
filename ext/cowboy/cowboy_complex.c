@@ -24,7 +24,7 @@ long size_of_val(VALUE v){
 }
 
 void cast_string_to_complex(fftw_complex * fc, VALUE str){
-  unsigned char * s;
+  double * s;
   long len;
   int i, j, a;
   double d;
@@ -33,13 +33,12 @@ void cast_string_to_complex(fftw_complex * fc, VALUE str){
 
   p = &d;
 
-  s = RSTRING_PTR(RSTRING(str));
-  len = RSTRING_LEN(RSTRING(str));
+  s = (double *) RSTRING_PTR(RSTRING(str));
+  len = RSTRING_LEN(RSTRING(str)) / 8;
 
-  for(i = 0, j = 0; i < len; i+=8, j++){
-    d = *(double *) &s[i];
-    fc[j][0] = d;
-    fc[j][1] = 0;
+  for(i = 0; i < len; i++){
+    fc[i][0] = s[i];
+    fc[i][1] = 0;
   }
 }
 
