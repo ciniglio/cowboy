@@ -4,7 +4,7 @@ class TestEnumerable < Test::Unit::TestCase
   def test_size
     a = (0...10000).to_a
     c = Cowboy::fft_1d a
-    assert_equal c.size, a.size
+    assert_equal c.size, a.size/2 + 1
   end
 
   def test_each

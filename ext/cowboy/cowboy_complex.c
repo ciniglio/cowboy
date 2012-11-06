@@ -23,7 +23,7 @@ long size_of_val(VALUE v){
   }
 }
 
-void cast_string_to_complex(fftw_complex * fc, VALUE str){
+void cast_string_to_complex(double * fc, VALUE str){
   double * s;
   long len;
   int i, j, a;
@@ -37,12 +37,11 @@ void cast_string_to_complex(fftw_complex * fc, VALUE str){
   len = RSTRING_LEN(RSTRING(str)) / 8;
 
   for(i = 0; i < len; i++){
-    fc[i][0] = s[i];
-    fc[i][1] = 0;
+    fc[i] = s[i];
   }
 }
 
-void cast_nums_to_complex(fftw_complex * fc, VALUE nums){
+void cast_nums_to_complex(double * fc, VALUE nums){
   long len;
   int i;
   VALUE n;
@@ -51,12 +50,11 @@ void cast_nums_to_complex(fftw_complex * fc, VALUE nums){
 
   for(len = 0; len < size_of_ary(nums); len++){
     n = rb_ary_entry(nums, len);
-    fc[len][0] = NUM2DBL(n);
-    fc[len][1] = 0;
+    fc[len] = NUM2DBL(n);
   }
 }
 
-void cast_val_to_complex(fftw_complex * fc, VALUE v){
+void cast_val_to_complex(double * fc, VALUE v){
   if (TYPE(v) == T_STRING) {
     cast_string_to_complex(fc, v);
   } else if (TYPE(v) == T_ARRAY) {

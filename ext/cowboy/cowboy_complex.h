@@ -6,7 +6,7 @@
 void Init_cowboy_complex();
 
 long size_of_val(VALUE v);
-void cast_val_to_complex(fftw_complex * fc, VALUE v);
+void cast_val_to_complex(double * fc, VALUE v);
 
 fftw_complex * allocate_fftw_complex(long n);
 

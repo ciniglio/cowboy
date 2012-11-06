@@ -14,7 +14,7 @@ class TestArray < Test::Unit::TestCase
     assert_equal c[0], 10
     assert_equal c[1], Complex(-2,2)
     assert_equal c[2], Complex(-2,0)
-    assert_equal c[3], Complex(-2,-2)
+    assert_equal c.size, a.size/2 + 1
   end
 
   def test_ffd_1d_8

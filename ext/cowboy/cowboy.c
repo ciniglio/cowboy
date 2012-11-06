@@ -2,8 +2,8 @@
 
 VALUE mCowboy;
 
-VALUE fft_1d(VALUE m, VALUE v) {
-  fftw_complex *in, *out;
+  double *in;
+  fftw_complex *out;
   fftw_plan fp;
   int n;
 
@@ -12,9 +12,9 @@ VALUE fft_1d(VALUE m, VALUE v) {
     rb_raise(rb_eException, "Can't use empty set of samples");
   }
 
-  in = allocate_fftw_complex(n);
-  out = allocate_fftw_complex(n);
-  fp = fftw_plan_dft_1d(n, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+  in = calloc(n, sizeof(double));
+  out = allocate_fftw_complex(n/2 + 1);
+  fp = fftw_plan_dft_r2c_1d(n, in, out, FFTW_ESTIMATE);
 
   cast_val_to_complex(in, v);
 
@@ -22,7 +22,7 @@ VALUE fft_1d(VALUE m, VALUE v) {
   free(in);
   fftw_destroy_plan(fp);
 
-  return ca_wrap_struct_class(out, n);
+  return ca_wrap_struct_class(out, n/2 + 1);
 }
 
 void Init_cowboy() {
