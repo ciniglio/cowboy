@@ -2,10 +2,14 @@
 
 VALUE mCowboy;
 
+VALUE fft_1d(int argc, VALUE* argv, VALUE module) {
+  VALUE v, opts, size;
   double *in;
   fftw_complex *out;
   fftw_plan fp;
   int n;
+
+  rb_scan_args(argc, argv, "11", &v, &opts);
 
   n = (int) size_of_val(v);
   if (n == 0) {
@@ -31,5 +35,5 @@ void Init_cowboy() {
   Init_cowboy_complex();
   Init_cowboy_array();
 
-  rb_define_module_function(mCowboy, "fft_1d", fft_1d, 1);
+  rb_define_module_function(mCowboy, "fft_1d", fft_1d, -1);
 }
