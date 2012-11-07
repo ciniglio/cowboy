@@ -9,16 +9,16 @@ class TestArray < Test::Unit::TestCase
   end
 
   def test_ffd_1d_4
-    a = [1,2,3,4]
+    a = Cowboy::CowboyData.new [1,2,3,4]
     c = Cowboy::fft_1d a
     assert_equal c[0], 10
     assert_equal c[1], Complex(-2,2)
     assert_equal c[2], Complex(-2,0)
-    assert_equal c.size, a.size/2 + 1
+    assert_equal c.size, 3
   end
 
   def test_ffd_1d_8
-    a = [1,2,1,2,1,2,1,2]
+    a = Cowboy::CowboyData.new [1,2,1,2,1,2,1,2]
     c = Cowboy::fft_1d a
     assert_equal c[0], 12
     assert_equal c[1], 0
