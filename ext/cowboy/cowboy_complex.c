@@ -9,7 +9,7 @@ long size_of_ary(VALUE nums){
 
 long size_of_str(VALUE str){
   Check_Type(str, T_STRING);
-  return RSTRING_LEN(RSTRING(str)) / 8;
+  return RSTRING_LEN(RSTRING(str));
 }
 
 long size_of_val(VALUE v){
@@ -18,7 +18,7 @@ long size_of_val(VALUE v){
   } else if (TYPE(v) == T_ARRAY) {
     return size_of_ary(v);
   } else {
-    rb_raise(rb_eNotImpError, "Needs a string or array");
+    rb_raise(rb_eNotImpError, "Size_of_val Needs a string or array");
     return 0;
   }
 }

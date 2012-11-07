@@ -11,7 +11,7 @@ VALUE fft_1d(int argc, VALUE* argv, VALUE module) {
 
   rb_scan_args(argc, argv, "11", &v, &opts);
 
-  n = (int) size_of_val(v);
+  n = (int) get_count_of_data(v);
   if (n == 0) {
     rb_raise(rb_eException, "Can't use empty set of samples");
   }
@@ -20,7 +20,9 @@ VALUE fft_1d(int argc, VALUE* argv, VALUE module) {
   out = allocate_fftw_complex(n/2 + 1);
   fp = fftw_plan_dft_r2c_1d(n, in, out, FFTW_ESTIMATE);
 
-  cast_val_to_complex(in, v);
+  get_doubles_from_data(in, v);
+
+
 
   fftw_execute(fp);
   free(in);
