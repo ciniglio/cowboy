@@ -31,6 +31,15 @@ class TestTwoChannel < Test::Unit::TestCase
     assert_equal c.size, 3 #n/2+1
   end
 
+  def test_array_output
+    a = Cowboy::CowboyData.new [1,1,2,2,3,3,4,4], nil, 2
+    c = Cowboy::fft_1d a
+    assert_equal c[0], 10
+    assert_equal c[1], Complex(-2,2)
+    assert_equal c[2], Complex(-2,0)
+    assert_equal c.size, 3 #n/2+1
+  end
+
   def test_output3
     a = Cowboy::CowboyData.new [0,1,0,2,0,3,0,4].pack('S*'), 2, 2
     c = Cowboy::fft_1d a

@@ -43,7 +43,7 @@ void get_doubles_from_string_data(double * out, char * str,
   int i,j;
   short * s; float * l; double * d;
 
-  memset(out, 0, sizeof(double) * count);
+
 
   switch (size){
   case 1:
@@ -87,33 +87,38 @@ void get_doubles_from_string_data(double * out, char * str,
   }
 }
 
-void get_doubles_from_array_data(double * out, VALUE in, long len){
+void get_doubles_from_array_data(double * out, VALUE in,
+                                 long len, long channels){
   VALUE num;
-  int i = 0;
+  int i,j;
 
   for(i = 0; i < len; i++){
-    out[i] = NUM2DBL(rb_ary_entry(in, i));
+    for(j = 0; j < channels; j++){
+      out[i] += NUM2DBL(rb_ary_entry(in, (i * channels) + j));
+    }
+    out[i] /= channels;
   }
 }
 
 void get_doubles_from_data(double * out, VALUE in){
   VALUE data;
-  long size, channels;
+  long size, channels, count;
   int i;
 
   check_type_cowboy_data(in);
 
   data = rb_iv_get(in, "@data");
-
   size = get_size(in);
-
   channels = get_channels(in);
+  count = get_count_of_data(in);
+
+  memset(out, 0, sizeof(double) * count);
 
   if (TYPE(data) == T_STRING){
     get_doubles_from_string_data(out, RSTRING_PTR(RSTRING(data)),
-                                 get_count_of_data(in), size, channels);
+                                 count, size, channels);
   } else if (TYPE(data) == T_ARRAY) {
-    get_doubles_from_array_data(out, data, get_count_of_data(in));
+    get_doubles_from_array_data(out, data, count, channels);
   } else {
     rb_raise(rb_eException, "Something went awry");
   }
