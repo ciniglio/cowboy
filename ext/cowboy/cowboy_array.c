@@ -16,13 +16,29 @@ static void ca_free(void * ca){
 VALUE array_index(VALUE self, VALUE index){
   fftw_complex * fc;
   CowboyArray * ca;
-  long i = NUM2LONG(index);
+  long beg, len;
+  long j;
+  VALUE arr, tmp;
   Data_Get_Struct(self, CowboyArray, ca);
-  if (i >= ca->N){
-    return Qnil;
+  if (FIXNUM_P(index)){
+    long i = NUM2LONG(index);
+    if (i >= ca->N){
+      return Qnil;
+    }
+    return c_to_rb_complex(ca->fc[i][0],
+                           ca->fc[i][1]);
+  } else if (rb_obj_is_kind_of(index, rb_cRange)) {
+    rb_range_beg_len(index, &beg, &len, ca->N, 0);
+    arr = rb_ary_new2(len);
+    for(j = beg; j < beg+len; j++){
+      tmp = c_to_rb_complex(ca->fc[j][0],
+                            ca->fc[j][1]);
+      rb_ary_store(arr, j-beg, tmp);
+    }
+    return arr;
+  } else {
+    rb_raise(rb_eException, "Please use an integer index");
   }
-  return c_to_rb_complex(ca->fc[i][0],
-                         ca->fc[i][1]);
 }
 
 VALUE array_size(VALUE self){
